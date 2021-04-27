@@ -42,8 +42,8 @@ const drawScore = () => {
 
 // gameOver
 const gameOver = () => {
-  clearInterval(intervalId);
-  ctx.font = '60px Courier'
+  playing = false;
+  ctx.font = '60px Courier';
   ctx.fillStyle = 'Black';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
@@ -86,7 +86,13 @@ class Snake {
   }
   draw() {
     for (let i = 0; i < this.segments.length; i++) {
-      this.segments[i].drawSquare('Blue');
+      if (i === 0) {
+        this.segments[i].drawSquare('MidnightBlue');
+      } else if (i % 2) {
+        this.segments[i].drawSquare('Teal');
+      } else {
+        this.segments[i].drawSquare('Peru');
+      }
     }
   }
   move() {
@@ -121,7 +127,12 @@ class Snake {
 
     if (newHead.equal(apple.position)) {
       score++;
-      apple.move()
+      if (score < 17 ) {
+        animationTime -= 5;
+      } else {
+        animationTime = 15;
+      }
+      apple.move(this.segments);
     } else {
       this.segments.pop();
     }
@@ -167,26 +178,42 @@ class Apple {
   draw() {
     this.position.drawCircle('LimeGreen');
   }
-  move() {
+  move(otherBlock) {
     let randomCol = Math.floor(Math.random() * (widthInBlocks - 2)) + 1;
     let randomRow = Math.floor(Math.random() * (heightInBlocks - 2)) + 1;
-
     this.position = new Block(randomCol, randomRow);
+
+    let index = otherBlock.length - 1;
+      while ( index >= 0 ) {
+        if (this.position.equal(otherBlock[index])) {
+          this.move(otherBlock);
+          return;
+        }
+        index--;
+      }
   }
 }
 
 const snake = new Snake();
 const apple = new Apple();
 
-// setInterval
-const intervalId = setInterval(() =>{
+// setTimeout
+let animationTime = 100;
+let playing = true;
+
+const gameLoop = () => {
   ctx.clearRect(0, 0, width, height);
   drawScore();
   snake.move();
   snake.draw();
   apple.draw();
   drawBorder();
-}, 100);
+  if (playing) {
+    setTimeout(gameLoop, animationTime);
+  }
+};
+
+gameLoop();
 
 // keyboard events
 const directions = {
