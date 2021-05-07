@@ -13,7 +13,7 @@ let score = 0;
 
 // drawBorder
 const drawBorder = () => {
-  ctx.fillStyle = 'Gray';
+  ctx.fillStyle = 'LightSlateGray';
   ctx.fillRect(0, 0, width, blockSize);
   ctx.fillRect(0, height - blockSize, width, blockSize);
   ctx.fillRect(0, 0, blockSize, height);
@@ -33,21 +33,21 @@ const circle = (x, y, radius, fillCircle) => {
 
 // drawScore
 const drawScore = () => {
-  ctx.font = '20px Courier'
+  ctx.font = '16px "Press Start 2P", Consolas, monospace';
   ctx.fillStyle = 'Black';
   ctx.textAlign = 'left';
   ctx.textBaseline = 'top';
-  ctx.fillText('Счёт: ' + score, blockSize, blockSize);
+  ctx.fillText('Score: ' + score, blockSize, blockSize);
 };
 
 // gameOver
 const gameOver = () => {
   playing = false;
-  ctx.font = '60px Courier';
+  ctx.font = '40px "Press Start 2P", Consolas, monospace';
   ctx.fillStyle = 'Black';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText('Конец игры', width / 2, height / 2);
+  ctx.fillText('Game over', width / 2, height / 2);
 };
 
 // constructor Block
@@ -87,11 +87,11 @@ class Snake {
   draw() {
     for (let i = 0; i < this.segments.length; i++) {
       if (i === 0) {
-        this.segments[i].drawSquare('MidnightBlue');
+        this.segments[i].drawSquare('DarkSlateGray');
       } else if (i % 2) {
-        this.segments[i].drawSquare('Teal');
+        this.segments[i].drawSquare('SteelBlue');
       } else {
-        this.segments[i].drawSquare('Peru');
+        this.segments[i].drawSquare('DarkSeaGreen');
       }
     }
   }
@@ -176,7 +176,7 @@ class Apple {
     this.position = new Block(10, 10);
   }
   draw() {
-    this.position.drawCircle('LimeGreen');
+    this.position.drawCircle('SeaGreen');
   }
   move(otherBlock) {
     let randomCol = Math.floor(Math.random() * (widthInBlocks - 2)) + 1;
