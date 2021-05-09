@@ -55,7 +55,6 @@ const drawMaxScore = () => {
     scoreMaxNumber.textContent = localStorage.getItem('number');
   }
   localStorage.setItem('number', maxNumber);
-  console.log(localStorage.getItem('number'));
 };
 
 // gameOver
@@ -244,7 +243,6 @@ const directions = {
 const body = document.querySelector('body');
 
 body.addEventListener('keydown', (e) => {
-  console.log(e.key);
   const newDirection = directions[e.key];
 
   if (newDirection !== undefined) {
