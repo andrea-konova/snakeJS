@@ -235,16 +235,17 @@ const gameLoop = () => {
 
 // keyboard events
 const directions = {
-  37: 'left',
-  38: 'up',
-  39: 'right',
-  40: 'down'
+  'ArrowLeft': 'left',
+  'ArrowUp': 'up',
+  'ArrowRight': 'right',
+  'ArrowDown': 'down'
 };
 
 const body = document.querySelector('body');
 
 body.addEventListener('keydown', (e) => {
-  const newDirection = directions[e.keyCode];
+  console.log(e.key);
+  const newDirection = directions[e.key];
 
   if (newDirection !== undefined) {
     snake.setDirection(newDirection);
@@ -262,13 +263,13 @@ const drawGameField = () => {
 
 drawGameField();
 
-// start game
+// start game button
 start.addEventListener('click', () => {
   gameLoop();
   start.style.display = 'none';
 })
 
-// restart game
+// restart game button
 restart.addEventListener('click', () => {
   score = 0;
   snake = new Snake();
