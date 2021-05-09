@@ -2,6 +2,12 @@
 const canvas = document.getElementById('canvas'),
   ctx = canvas.getContext('2d');
 
+const scoreNumber = document.querySelector('.score-number'),
+  scoreMaxNumber = document.querySelector('.max-score-number');
+
+const start = document.querySelector('.start'),
+  restart = document.querySelector('.restart');
+
 const width = canvas.width,
   height = canvas.height;
 
@@ -33,16 +39,29 @@ const circle = (x, y, radius, fillCircle) => {
 
 // drawScore
 const drawScore = () => {
-  ctx.font = '16px "Press Start 2P", Consolas, monospace';
-  ctx.fillStyle = 'Black';
-  ctx.textAlign = 'left';
-  ctx.textBaseline = 'top';
-  ctx.fillText('Score: ' + score, blockSize, blockSize);
+  scoreNumber.textContent = score;
+};
+
+// draw max score
+let maxNumber = 0;
+
+const drawMaxScore = () => {
+
+  if (maxNumber < score) {
+    maxNumber = Math.max(score);
+    localStorage.setItem('number', maxNumber);
+    scoreMaxNumber.textContent = localStorage.getItem('number');
+  } else {
+    scoreMaxNumber.textContent = localStorage.getItem('number');
+  }
+  localStorage.setItem('number', maxNumber);
+  console.log(localStorage.getItem('number'));
 };
 
 // gameOver
 const gameOver = () => {
   playing = false;
+  restart.style.visibility = 'visible';
   ctx.font = '40px "Press Start 2P", Consolas, monospace';
   ctx.fillStyle = 'Black';
   ctx.textAlign = 'center';
@@ -194,8 +213,8 @@ class Apple {
   }
 }
 
-const snake = new Snake();
-const apple = new Apple();
+let snake = new Snake();
+let apple = new Apple();
 
 // setTimeout
 let animationTime = 100;
@@ -204,6 +223,7 @@ let playing = true;
 const gameLoop = () => {
   ctx.clearRect(0, 0, width, height);
   drawScore();
+  drawMaxScore()
   snake.move();
   snake.draw();
   apple.draw();
@@ -212,8 +232,6 @@ const gameLoop = () => {
     setTimeout(gameLoop, animationTime);
   }
 };
-
-gameLoop();
 
 // keyboard events
 const directions = {
@@ -231,4 +249,32 @@ body.addEventListener('keydown', (e) => {
   if (newDirection !== undefined) {
     snake.setDirection(newDirection);
   }
+})
+
+// draw the playing field
+const drawGameField = () => {
+  drawScore();
+  drawMaxScore()
+  snake.draw();
+  apple.draw();
+  drawBorder();
+}
+
+drawGameField();
+
+// start game
+start.addEventListener('click', () => {
+  gameLoop();
+  start.style.display = 'none';
+})
+
+// restart game
+restart.addEventListener('click', () => {
+  score = 0;
+  snake = new Snake();
+  apple = new Apple();
+  playing = true;
+  animationTime = 100;
+  gameLoop();
+  restart.style.visibility = 'hidden';
 })

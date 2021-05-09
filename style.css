@@ -10,7 +10,17 @@ h1 {
   font-family: 'Press Start 2P', Consolas, monospace;
   font-size: 20px;
 }
-.restart {
+.score-info {
+  display: flex;
+  justify-content: space-between;
+  width: 400px;
+  font-family: 'Press Start 2P', Consolas, monospace;
+  font-size: 16px;
+}
+.score, .max-score {
+  margin: 0;
+}
+.button {
   margin: 20px 0;
   padding: 10px 20px;
   font-family: 'Press Start 2P', Consolas, monospace;
@@ -19,7 +29,10 @@ h1 {
   background-color: LightSteelBlue;
   transition: background-color 0.3s;
 }
-.restart:hover {
+.button:hover {
   cursor: pointer;
   background-color: LightSlateGray;
+}
+.restart {
+  visibility: hidden;
 }
